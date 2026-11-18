@@ -1,0 +1,30 @@
+# Opcional: sobe só o MariaDB, já com a tabela criada e as ideias de exemplo.
+# O backend e o frontend rodam fora do Docker (ver README).
+services:
+  mariadb:
+    image: mariadb:12.3
+    container_name: dmais-ideias-mariadb
+    environment:
+      # Senha de root aleatória (aparece em `docker logs dmais-ideias-mariadb`).
+      # Assim nenhuma senha de root fica no repositório: a aplicação usa o
+      # usuário dmais_app, criado no schema.sql.
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    ports:
+      # 3307 na sua máquina, para não conflitar com um MariaDB local na 3306.
+      - "3307:3306"
+    volumes:
+      # Na primeira vez que o volume é criado, o MariaDB roda os scripts
+      # desta pasta em ordem alfabética: primeiro o schema, depois o seed.
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - dados:/var/lib/mysql
+    healthcheck:
+      # Com isso, `docker compose up -d --wait` só libera o terminal
+      # quando o banco já está pronto para receber conexões.
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dados:

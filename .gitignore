@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.log
+
+# Credenciais ficam só no .env de cada máquina. O .env.example é versionado.
+.env
