@@ -1,0 +1,8 @@
+{
+  "reAutor": "1043",
+  "oQueMelhorar": "Tempo de troca de molde nas injetoras",
+  "comoFeitoHoje": "Quando a máquina para para a troca, o operador vai até o almoxarifado buscar ferramentas, parafusos e mangueiras. O molde novo também só é aquecido depois de montado. A troca leva cerca de 1h30.",
+  "comoMelhorar": "Montar um carrinho de setup para cada injetora, com todas as ferramentas e peças de fixação. Separar e pré-aquecer o próximo molde ao lado da máquina antes da parada.",
+  "beneficio": "A troca deve cair para menos de 1 hora, sobrando mais tempo de máquina produzindo em todos os turnos.",
+  "dataRegistro": "2026-08-05"
+}

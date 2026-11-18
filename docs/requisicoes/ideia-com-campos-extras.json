@@ -1,0 +1,10 @@
+{
+  "id": 1,
+  "criadoEm": "2000-01-01 00:00:00",
+  "reAutor": "7788",
+  "oQueMelhorar": "Ficha que tenta escolher o próprio id e a data de cadastro",
+  "comoFeitoHoje": "O corpo da requisição traz id e criadoEm, que não fazem parte da ficha.",
+  "comoMelhorar": "A API deve ignorar esses campos e deixar o banco gerar os valores.",
+  "beneficio": "Prova de que ninguém sobrescreve a Ideia 1 nem falsifica a data de cadastro.",
+  "dataRegistro": "2026-11-13"
+}

@@ -9,6 +9,9 @@ services:
       # Assim nenhuma senha de root fica no repositório: a aplicação usa o
       # usuário dmais_app, criado no schema.sql.
       MARIADB_RANDOM_ROOT_PASSWORD: "1"
+      # Sem isso o container roda em UTC (3 horas à frente de Brasília),
+      # e o criado_em de uma ideia nova sairia com a hora errada.
+      TZ: America/Sao_Paulo
     ports:
       # 3307 na sua máquina, para não conflitar com um MariaDB local na 3306.
       - "3307:3306"

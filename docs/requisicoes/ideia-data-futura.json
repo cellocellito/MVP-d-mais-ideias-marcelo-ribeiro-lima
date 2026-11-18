@@ -1,0 +1,8 @@
+{
+  "reAutor": "12345678901",
+  "oQueMelhorar": "Ficha com data no futuro e RE com 11 dígitos",
+  "comoFeitoHoje": "Os outros campos estão certos, para mostrar só esses dois erros.",
+  "comoMelhorar": "A API deve recusar a data e o RE.",
+  "beneficio": "Prova de que a data futura e o RE longo são barrados.",
+  "dataRegistro": "2099-01-01"
+}

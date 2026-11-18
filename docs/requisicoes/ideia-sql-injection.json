@@ -1,0 +1,8 @@
+{
+  "reAutor": "6600",
+  "oQueMelhorar": "'; DROP TABLE ideias; --",
+  "comoFeitoHoje": "Texto de teste: o campo acima tenta apagar a tabela.",
+  "comoMelhorar": "Com query parametrizada, ele deve ser salvo como texto comum.",
+  "beneficio": "Prova de que a API não é vulnerável a SQL injection.",
+  "dataRegistro": "2026-11-12"
+}

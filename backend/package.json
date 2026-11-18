@@ -1,0 +1,20 @@
+{
+  "name": "d-mais-ideias-backend",
+  "version": "1.0.0",
+  "description": "API do D+Ideias: cadastro e consulta de ideias de melhoria",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --watch --env-file=.env src/server.js"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "helmet": "^8.3.0",
+    "mysql2": "^3.24.6"
+  }
+}
