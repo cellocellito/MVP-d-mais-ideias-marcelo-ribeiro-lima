@@ -134,7 +134,7 @@ export default function FormularioIdeia({ valoresIniciais, textoDoBotao, destino
       <div className="campo">
         <label htmlFor="campo-dataRegistro">{ROTULOS.dataRegistro}</label>
         <p className="dica" id="dica-dataRegistro">
-          A data escrita na ficha. Não pode ser no futuro.
+          Confira com a data escrita na ficha. Não pode ser no futuro.
         </p>
         <input
           id="campo-dataRegistro"

@@ -27,6 +27,8 @@ app.use((req, res) => {
 // O detalhe do erro vai só para o console do servidor. O cliente recebe uma
 // mensagem genérica: stack trace e erro do banco revelam como o sistema é
 // por dentro (nomes de tabela, versões, caminhos).
+// O "next" não é usado, mas precisa estar aqui: o Express só reconhece
+// uma função de tratamento de erro quando ela tem os 4 parâmetros.
 app.use((erro, req, res, next) => {
   // Erros do express.json(): o problema está no que o cliente enviou.
   if (erro.type === 'entity.parse.failed') {

@@ -43,6 +43,17 @@ export default function EditarIdeia() {
   }, [id, tentativa]);
 
   async function salvar(dados) {
+    // Nenhum campo mudou: não chama a API. Assim a tela não diz "atualizada"
+    // para uma ideia que continua igual (e que o banco não marca como editada).
+    const nadaMudou = Object.keys(dados).every((campo) => dados[campo] === ideia[campo]);
+    if (nadaMudou) {
+      navigate(`/ideias/${ideia.id}`, {
+        replace: true,
+        state: { aviso: 'Nenhuma alteração para salvar.' },
+      });
+      return;
+    }
+
     const ideiaAtualizada = await atualizarIdeia(id, dados);
     // replace: o formulário de edição sai do histórico do navegador.
     navigate(`/ideias/${ideiaAtualizada.id}`, {
