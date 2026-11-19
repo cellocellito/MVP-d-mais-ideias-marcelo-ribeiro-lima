@@ -1,12 +1,8 @@
-// Mesmas regras de backend/src/validacao.js, com as mesmas mensagens.
-// Aqui servem só para avisar o usuário na hora, sem esperar a API.
-// Quem garante os dados é o backend: ele valida de novo tudo o que chega.
+// Cópia das regras do backend, só para avisar o usuário na hora. Quem garante os dados é o backend.
 import { dataDeHoje } from './datas.js';
 import { CAMPOS_DE_TEXTO, TAMANHO_MINIMO_TEXTO, TAMANHO_MAXIMO_TEXTO } from './campos.js';
 
-// Confere se a data existe no calendário (30/02 não existe).
-// O Date "conserta" datas impossíveis (30/02 vira 02/03), então basta ver
-// se o ano, o mês e o dia continuaram os mesmos.
+// O Date "conserta" datas impossíveis (30/02 vira 02/03), por isso a conferência.
 function dataExiste(texto) {
   if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(texto)) {
     return false;
@@ -32,8 +28,6 @@ function validarTexto(texto) {
   return null;
 }
 
-// Recebe os valores do formulário (já sem espaços nas pontas)
-// e devolve { campo: 'mensagem' }. Objeto vazio = tudo certo.
 export function validarIdeia(valores) {
   const erros = {};
 
@@ -50,7 +44,7 @@ export function validarIdeia(valores) {
     }
   }
 
-  // No formato AAAA-MM-DD, comparar as datas como texto funciona.
+  // Em AAAA-MM-DD, comparar as datas como texto funciona.
   if (valores.dataRegistro === '') {
     erros.dataRegistro = 'Informe a data de registro.';
   } else if (!dataExiste(valores.dataRegistro)) {

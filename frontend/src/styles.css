@@ -123,7 +123,7 @@ a {
   background: var(--cor-superficie-suave);
 }
 
-/* O NavLink do React Router coloca a classe "active" no link da página atual. */
+/* Classe colocada pelo NavLink na página atual. */
 .navegacao a.active {
   color: var(--cor-destaque);
   background: var(--cor-destaque-clara);
@@ -281,8 +281,7 @@ a {
   font-size: var(--texto-medio);
 }
 
-/* A tabela rola na horizontal dentro desta caixa em telas estreitas,
-   sem quebrar o layout da página. */
+/* Em telas estreitas, a tabela rola dentro da caixa, e não a página. */
 .tabela-container {
   overflow-x: auto;
   border: 1px solid var(--cor-borda);
@@ -339,8 +338,7 @@ a {
   font-variant-numeric: tabular-nums;
 }
 
-/* Coluna do texto: ocupa o espaço que sobra (width: 100%) sem empurrar a
-   tabela para fora da tela (max-width: 0). O que não cabe vira "...". */
+/* width: 100% ocupa o espaço que sobra; max-width: 0 impede de empurrar a tabela. */
 .tabela .coluna-texto {
   width: 100%;
   max-width: 0;
@@ -391,8 +389,7 @@ a {
   font-weight: 600;
 }
 
-/* pre-wrap mantém as quebras de linha digitadas na ficha.
-   overflow-wrap quebra palavras enormes que não caberiam na largura. */
+/* Mantém as quebras de linha da ficha e quebra palavras longas demais. */
 .secao-ficha p {
   line-height: 1.6;
   white-space: pre-wrap;
@@ -444,7 +441,7 @@ textarea {
   resize: vertical;
 }
 
-/* Campo em foco: o contorno aparece também no clique, não só no teclado. */
+/* :focus (e não :focus-visible): o contorno aparece também no clique. */
 input:focus,
 textarea:focus {
   border-color: var(--cor-destaque);

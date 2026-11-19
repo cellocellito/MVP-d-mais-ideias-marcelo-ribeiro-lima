@@ -1,8 +1,6 @@
-// Chamadas à API. Todas usam caminho relativo (/api/...): em desenvolvimento,
-// o Vite repassa essas chamadas para o backend (ver vite.config.js).
+// Caminhos relativos (/api/...): o proxy do Vite repassa para o backend.
 
-// Lê o corpo da resposta como JSON. Devolve null se o corpo não for JSON
-// (por exemplo, quando o backend está desligado e o Vite responde com erro).
+// Com o backend desligado, o Vite responde com erro sem corpo JSON.
 async function lerJson(resposta) {
   try {
     return await resposta.json();
@@ -11,11 +9,7 @@ async function lerJson(resposta) {
   }
 }
 
-// Faz a chamada e devolve o JSON da resposta.
-// Se a API responder com erro, lança um Error com:
-// - message: texto para mostrar na tela;
-// - status: código HTTP (404, 500...);
-// - erros: { campo: 'mensagem' } quando é erro de validação (400).
+// Todo erro vira um Error com message (para a tela), status e erros (por campo, no 400).
 async function chamarApi(caminho, opcoes) {
   let resposta;
   try {
@@ -43,7 +37,6 @@ async function chamarApi(caminho, opcoes) {
 }
 
 export function listarIdeias(busca) {
-  // encodeURIComponent evita que caracteres como & ou # quebrem a URL.
   return chamarApi('/api/ideias?busca=' + encodeURIComponent(busca));
 }
 

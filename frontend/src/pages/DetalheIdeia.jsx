@@ -11,9 +11,7 @@ export default function DetalheIdeia() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Aviso enviado pela tela anterior ("Ideia 9 cadastrada."), se houver.
-  // Fica guardado no estado do componente para continuar na tela
-  // depois da limpeza feita logo abaixo.
+  // Guardado no estado para continuar na tela depois da limpeza abaixo.
   const [aviso] = useState(location.state?.aviso);
 
   const [ideia, setIdeia] = useState(null);
@@ -21,8 +19,7 @@ export default function DetalheIdeia() {
   const [erro, setErro] = useState(null);
   const [tentativa, setTentativa] = useState(0);
 
-  // Tira o aviso do histórico do navegador (mesma URL, sem o state).
-  // Assim ele não aparece de novo se a página for recarregada (F5).
+  // Tira o aviso do histórico, para ele não voltar no F5.
   useEffect(() => {
     if (location.state?.aviso) {
       navigate(location.pathname, { replace: true });
@@ -30,7 +27,7 @@ export default function DetalheIdeia() {
   }, [location, navigate]);
 
   useEffect(() => {
-    // Mesmo cuidado da listagem: descarta a resposta se o id mudar antes dela chegar.
+    // Descarta a resposta se o id mudar antes dela chegar.
     let ignorarResposta = false;
 
     async function carregar() {

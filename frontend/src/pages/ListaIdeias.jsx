@@ -4,7 +4,6 @@ import { listarIdeias } from '../api.js';
 import { formatarData } from '../datas.js';
 import MensagemDeErro from '../components/MensagemDeErro.jsx';
 
-// "1 ideia cadastrada", "8 ideias cadastradas", "2 ideias encontradas para “1043”"
 function textoDoResumo(quantidade, busca) {
   if (quantidade === 1) {
     return busca ? `1 ideia encontrada para “${busca}”` : '1 ideia cadastrada';
@@ -17,8 +16,7 @@ function textoDoResumo(quantidade, busca) {
 export default function ListaIdeias() {
   const navigate = useNavigate();
 
-  // A busca aplicada fica na URL (/?busca=1043). Assim o F5 e o botão
-  // Voltar do navegador mantêm o filtro.
+  // A busca fica na URL (/?busca=1043): o F5 e o Voltar do navegador mantêm o filtro.
   const [parametros, setParametros] = useSearchParams();
   const busca = parametros.get('busca') || '';
 
@@ -35,9 +33,8 @@ export default function ListaIdeias() {
     setTextoBusca(busca);
   }, [busca]);
 
-  // Carrega a lista sempre que a busca muda ou o usuário clica em "Tentar de novo".
   useEffect(() => {
-    // Se a busca mudar antes desta resposta chegar, ela é descartada,
+    // Descarta a resposta se a busca mudar antes dela chegar,
     // para uma resposta antiga não sobrescrever a nova.
     let ignorarResposta = false;
 
@@ -129,8 +126,7 @@ export default function ListaIdeias() {
             </thead>
             <tbody>
               {ideias.map((ideia) => (
-                // A linha inteira é clicável para quem usa o mouse.
-                // O link no número é para quem navega pelo teclado.
+                // Linha clicável para o mouse. O link é para quem usa o teclado.
                 <tr key={ideia.id} onClick={() => navigate(`/ideias/${ideia.id}`)}>
                   <td>
                     {/* stopPropagation: o link já navega, a linha não precisa navegar de novo. */}

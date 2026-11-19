@@ -4,10 +4,8 @@ import { CAMPOS_DE_TEXTO, ROTULOS, TAMANHO_MAXIMO_RE, TAMANHO_MAXIMO_TEXTO } fro
 import { dataDeHoje } from '../datas.js';
 import { validarIdeia } from '../validacao.js';
 
-// Ordem dos campos na tela, igual à ficha de papel.
 const ORDEM_DOS_CAMPOS = ['reAutor', ...CAMPOS_DE_TEXTO, 'dataRegistro'];
 
-// Coloca o cursor no primeiro campo com erro, para o usuário ir direto nele.
 function focarPrimeiroErro(erros) {
   const primeiroCampo = ORDEM_DOS_CAMPOS.find((campo) => erros[campo]);
   if (primeiroCampo) {
@@ -15,24 +13,17 @@ function focarPrimeiroErro(erros) {
   }
 }
 
-// Formulário da ficha, usado no cadastro (NovaIdeia) e na edição (EditarIdeia).
-// - valoresIniciais: os 6 campos da ficha (vazios no cadastro, preenchidos na edição);
-// - textoDoBotao: "Cadastrar ideia" ou "Salvar alterações";
-// - destinoCancelar: para onde o botão Cancelar leva;
-// - aoSalvar(dados): função da página que chama a API e muda de tela.
-//   Se ela lançar um erro, o formulário mostra a mensagem e libera o botão.
+// Usado no cadastro e na edição: a página decide o que o aoSalvar faz (POST ou PUT).
 export default function FormularioIdeia({ valoresIniciais, textoDoBotao, destinoCancelar, aoSalvar }) {
   const [valores, setValores] = useState(valoresIniciais);
   const [erros, setErros] = useState({});
   const [erroGeral, setErroGeral] = useState(null);
   const [enviando, setEnviando] = useState(false);
 
-  // Um único onChange para todos os campos: o "name" do campo diz qual valor mudar.
   function alterarCampo(evento) {
     const campo = evento.target.name;
     setValores({ ...valores, [campo]: evento.target.value });
 
-    // O erro do campo some assim que o usuário começa a corrigir.
     if (erros[campo]) {
       setErros({ ...erros, [campo]: null });
     }
@@ -41,7 +32,6 @@ export default function FormularioIdeia({ valoresIniciais, textoDoBotao, destino
   async function enviar(evento) {
     evento.preventDefault();
 
-    // A mesma limpeza que o backend faz: tira os espaços das pontas.
     const dados = {
       reAutor: valores.reAutor.trim(),
       oQueMelhorar: valores.oQueMelhorar.trim(),
@@ -65,7 +55,6 @@ export default function FormularioIdeia({ valoresIniciais, textoDoBotao, destino
     try {
       await aoSalvar(dados);
     } catch (erroDaApi) {
-      // Erro 400 do backend: mostra a mensagem embaixo de cada campo.
       if (erroDaApi.erros) {
         setErros(erroDaApi.erros);
         focarPrimeiroErro(erroDaApi.erros);
@@ -75,8 +64,7 @@ export default function FormularioIdeia({ valoresIniciais, textoDoBotao, destino
     }
   }
 
-  // noValidate: desliga os balões de erro do navegador. As mensagens
-  // aparecem embaixo de cada campo, sempre no mesmo formato.
+  // noValidate: sem os balões do navegador. Os erros aparecem embaixo de cada campo.
   return (
     <form className="cartao formulario" onSubmit={enviar} noValidate>
       <div className="campo">

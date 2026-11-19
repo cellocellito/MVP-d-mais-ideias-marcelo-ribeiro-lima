@@ -1,9 +1,5 @@
--- D+Ideias: ideias de exemplo (fábrica de peças plásticas injetadas).
--- Rodar uma única vez, logo depois do schema.sql. Rodar de novo duplica os exemplos.
---
--- O criado_em é informado de propósito, para simular a rotina real:
--- as fichas de um mês são recolhidas da urna e digitadas no começo do mês seguinte.
--- Por isso a data de registro (escrita na ficha) é sempre anterior à data de cadastro.
+-- Ideias de exemplo (fábrica de peças plásticas). Rodar uma vez, depois do schema.sql.
+-- O criado_em simula a rotina real: as fichas do mês são digitadas no começo do mês seguinte.
 
 SET NAMES utf8mb4;
 
@@ -42,7 +38,7 @@ VALUES
    'Fim do retrabalho manual e menos risco de corte com o estilete.',
    '2026-09-03', '2026-10-01 14:10:00'),
 
-  -- Esta ficha tem quebras de linha (\n), para mostrar que o detalhe as respeita.
+  -- Com quebras de linha (\n) nos textos.
   ('3175',
    'Amostra padrão para a inspeção visual no fim da linha',
    'O inspetor compara as peças com a amostra padrão que fica guardada na sala da Qualidade.\nQuando surge uma dúvida, ele precisa sair da linha para buscar a amostra, e as peças ficam acumulando.',

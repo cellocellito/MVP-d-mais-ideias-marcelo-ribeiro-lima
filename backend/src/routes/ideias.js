@@ -2,18 +2,12 @@ import { Router } from 'express';
 import pool from '../db.js';
 import { validarIdeia } from '../validacao.js';
 
-// Todas as consultas usam "?" no lugar dos valores (queries parametrizadas).
-// O pool.execute() manda o SQL e os valores separados para o banco, que
-// trata cada valor como dado, nunca como comando. Por isso um texto como
-// '; DROP TABLE ideias; -- é salvo como texto comum.
-//
-// O banco usa snake_case (re_autor) e o JavaScript usa camelCase (reAutor).
-// A troca de nome é feita no próprio SELECT, com AS.
+// Valores sempre como parâmetro (?): o pool.execute() manda SQL e dados separados.
+// O AS converte o snake_case do banco para o camelCase do JSON.
 
 const router = Router();
 
-// O id vem da URL como texto. Aceita só inteiro positivo, com até 10 dígitos
-// (o tamanho máximo de um INT UNSIGNED).
+// Até 10 dígitos: o tamanho de um INT UNSIGNED.
 function idValido(texto) {
   return /^[1-9][0-9]{0,9}$/.test(texto);
 }
@@ -22,7 +16,6 @@ function temErros(erros) {
   return Object.keys(erros).length > 0;
 }
 
-// Devolve a ideia completa, ou undefined se o id não existir.
 async function buscarIdeiaPorId(id) {
   const [linhas] = await pool.execute(
     `SELECT id,
@@ -52,7 +45,7 @@ async function listarTodas() {
   return linhas;
 }
 
-// Busca exata pelo RE. Usa o índice idx_ideias_re_autor.
+// Usa o índice idx_ideias_re_autor.
 async function listarPorRe(re) {
   const [linhas] = await pool.execute(
     `SELECT id, re_autor AS reAutor, o_que_melhorar AS oQueMelhorar, data_registro AS dataRegistro
@@ -64,8 +57,7 @@ async function listarPorRe(re) {
   return linhas;
 }
 
-// Busca por parte do texto de "O que pode ser melhorado".
-// Os % entram no valor do parâmetro, não no SQL.
+// Os % vão no valor do parâmetro, não no SQL.
 async function listarPorTexto(texto) {
   const [linhas] = await pool.execute(
     `SELECT id, re_autor AS reAutor, o_que_melhorar AS oQueMelhorar, data_registro AS dataRegistro
@@ -78,8 +70,7 @@ async function listarPorTexto(texto) {
 }
 
 // GET /api/ideias?busca=
-// Sem busca: todas. Busca só com números: ideias daquele RE.
-// Busca com letras: procura no texto de "O que pode ser melhorado".
+// Só números: busca o RE exato. Com letras: busca no texto de "O que pode ser melhorado".
 router.get('/', async (req, res) => {
   let busca = '';
   if (typeof req.query.busca === 'string') {
@@ -119,7 +110,6 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ erros });
   }
 
-  // O id, o criado_em e o atualizado_em não aparecem aqui: quem preenche é o banco.
   const [resultado] = await pool.execute(
     `INSERT INTO ideias
        (re_autor, o_que_melhorar, como_feito_hoje, como_melhorar, beneficio, data_registro)
@@ -134,7 +124,6 @@ router.post('/', async (req, res) => {
     ]
   );
 
-  // insertId é o número que o AUTO_INCREMENT acabou de gerar.
   const ideiaCriada = await buscarIdeiaPorId(resultado.insertId);
   res.status(201).location(`/api/ideias/${ideiaCriada.id}`).json(ideiaCriada);
 });
@@ -151,8 +140,7 @@ router.put('/:id', async (req, res) => {
     return res.status(400).json({ erros });
   }
 
-  // O atualizado_em não aparece aqui: o ON UPDATE CURRENT_TIMESTAMP da tabela
-  // preenche sozinho quando algum valor muda.
+  // O atualizado_em é preenchido pelo ON UPDATE da tabela.
   const [resultado] = await pool.execute(
     `UPDATE ideias
         SET re_autor = ?,
@@ -173,8 +161,8 @@ router.put('/:id', async (req, res) => {
     ]
   );
 
-  // affectedRows conta as linhas que o WHERE encontrou (o mysql2 liga a opção
-  // FOUND_ROWS por padrão). Zero quer dizer que o id não existe.
+  // Com FOUND_ROWS (padrão do mysql2), affectedRows conta as linhas encontradas,
+  // mesmo sem mudança. Zero quer dizer que o id não existe.
   if (resultado.affectedRows === 0) {
     return res.status(404).json({ mensagem: 'Ideia não encontrada.' });
   }

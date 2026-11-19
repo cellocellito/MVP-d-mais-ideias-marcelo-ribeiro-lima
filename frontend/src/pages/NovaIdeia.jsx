@@ -17,8 +17,7 @@ export default function NovaIdeia() {
 
   async function salvar(dados) {
     const ideiaCriada = await cadastrarIdeia(dados);
-    // replace: o formulário sai do histórico, então o Voltar do navegador
-    // não reabre um formulário que já foi enviado.
+    // replace: o Voltar do navegador não reabre um formulário já enviado.
     navigate(`/ideias/${ideiaCriada.id}`, {
       replace: true,
       state: { aviso: `Ideia ${ideiaCriada.id} cadastrada.` },

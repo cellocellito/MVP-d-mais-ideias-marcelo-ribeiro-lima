@@ -1,5 +1,4 @@
-// Rótulos dos campos, iguais aos da ficha de papel.
-// Ficam num lugar só para o formulário e o detalhe usarem o mesmo texto.
+// Os mesmos rótulos da ficha de papel, usados no formulário e no detalhe.
 export const ROTULOS = {
   reAutor: 'RE do autor',
   oQueMelhorar: 'O que pode ser melhorado?',
@@ -9,7 +8,6 @@ export const ROTULOS = {
   dataRegistro: 'Data de registro da ideia',
 };
 
-// Os quatro textos da ficha, na ordem do papel.
 export const CAMPOS_DE_TEXTO = ['oQueMelhorar', 'comoFeitoHoje', 'comoMelhorar', 'beneficio'];
 
 export const TAMANHO_MINIMO_TEXTO = 5;

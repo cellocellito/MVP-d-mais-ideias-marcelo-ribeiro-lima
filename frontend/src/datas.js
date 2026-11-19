@@ -1,6 +1,5 @@
-// A API devolve datas como texto: "2026-08-05" (DATE) e "2026-09-02 08:40:00"
-// (DATETIME). A formatação é feita direto no texto, sem new Date(): o Date lê
-// "2026-08-05" como meia-noite em UTC, e no Brasil isso vira 04/08 às 21h.
+// Formata direto no texto, sem new Date(): o Date lê "2026-08-05" como
+// meia-noite em UTC, e no Brasil isso vira 04/08.
 
 // "2026-08-05" -> "05/08/2026"
 export function formatarData(texto) {
@@ -14,9 +13,8 @@ export function formatarDataHora(texto) {
   return `${formatarData(data)} às ${hora.slice(0, 5)}`;
 }
 
-// Data de hoje no fuso do computador, no formato AAAA-MM-DD (o mesmo do
-// <input type="date">). Não usa toISOString(), porque ela converte para UTC:
-// no Brasil, depois das 21h, já devolveria a data de amanhã.
+// Não usa toISOString(): ela converte para UTC e, no Brasil,
+// depois das 21h já devolve a data de amanhã.
 export function dataDeHoje() {
   const agora = new Date();
   const ano = agora.getFullYear();

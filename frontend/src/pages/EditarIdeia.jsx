@@ -4,7 +4,6 @@ import { atualizarIdeia, buscarIdeia } from '../api.js';
 import FormularioIdeia from '../components/FormularioIdeia.jsx';
 import MensagemDeErro from '../components/MensagemDeErro.jsx';
 
-// Carrega a ideia e abre o mesmo formulário do cadastro, já preenchido.
 export default function EditarIdeia() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -43,8 +42,7 @@ export default function EditarIdeia() {
   }, [id, tentativa]);
 
   async function salvar(dados) {
-    // Nenhum campo mudou: não chama a API. Assim a tela não diz "atualizada"
-    // para uma ideia que continua igual (e que o banco não marca como editada).
+    // Sem mudança, não chama a API (e a tela não diz "atualizada" à toa).
     const nadaMudou = Object.keys(dados).every((campo) => dados[campo] === ideia[campo]);
     if (nadaMudou) {
       navigate(`/ideias/${ideia.id}`, {
@@ -55,7 +53,7 @@ export default function EditarIdeia() {
     }
 
     const ideiaAtualizada = await atualizarIdeia(id, dados);
-    // replace: o formulário de edição sai do histórico do navegador.
+    // replace: o formulário sai do histórico do navegador.
     navigate(`/ideias/${ideiaAtualizada.id}`, {
       replace: true,
       state: { aviso: `Ideia ${ideiaAtualizada.id} atualizada.` },
@@ -93,7 +91,6 @@ export default function EditarIdeia() {
     );
   }
 
-  // Só os 6 campos da ficha vão para o formulário (sem id e datas de auditoria).
   const valoresIniciais = {
     reAutor: ideia.reAutor,
     oQueMelhorar: ideia.oQueMelhorar,
